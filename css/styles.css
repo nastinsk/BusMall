@@ -1,0 +1,10 @@
+#img-container{
+    display:flex;
+    flex-direction: row;
+}
+input[type = "radio"]{
+   margin-top: 20px;
+}
+label { 
+    margin-left: 70px;
+}
