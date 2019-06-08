@@ -1,0 +1,149 @@
+body{
+    display: flex;
+    flex-basis: row;
+    justify-content: center;
+}
+#page {
+    width: 1520px;
+}
+
+header{
+    display:flex;
+    flex-direction:row;
+    justify-content: space-between;
+    padding: 30px 40px;
+
+}
+#header-flex{
+    width:600px;
+    height: 50px;
+    display:flex;
+    flex-direction:row;
+    justify-content: flex-start;
+
+}
+#header-flex h1{
+    font-size: 35px;
+    margin: auto 15px;
+}
+header ul{
+    width: 500px;
+    display:flex;
+    flex-direction: row;
+    justify-content: space-between;
+    font-size: 25px;
+    font-style: bold;
+
+}
+header ul li{
+    border: 2px solid black;
+    border-right: none;
+    border-top-right-radius: 15px;
+    border-top-left-radius: 15px;
+    width: 128px;
+    text-align: center;
+    padding: 15px 0px;
+}
+header ul li:hover{
+    background-color: rgb(211, 209, 209);
+}
+header ul li:last-child{
+    border-right: 2px solid black;
+}
+
+main {
+    display: grid;
+    grid-template-columns: 320px 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    margin: 0px 10px;
+}
+#resultsParent{
+    grid-row-start: 1;
+    grid-row-end: 3;    
+}
+
+#results {
+    width: 88%;
+    height: 88%;
+    border: 2px solid grey;
+    margin:0px 17px ;
+}
+
+#alertUser{
+    font-size: 25px;
+    padding: 16px;
+    font-weight: bold;
+
+}
+#results img{
+    width: 80%;
+    padding: 10px 10%;
+}
+#results h3{
+    font-size: 20px;
+    padding: 5px 16px;
+}
+
+#results ul{
+    text-align: right;
+    border-top: 2px dotted grey;
+    margin-top: 10px;
+    font-size: 20px;
+    padding: 20px 20px 20px 0px;
+}
+#item1{
+    width:385px;
+    grid-row:1;
+    grid-column:2;
+    border: 2px solid grey;
+    text-align:center;
+}
+#item2{
+    width:385px;
+    grid-row:1;
+    grid-column:3;
+    border: 2px solid grey;
+    text-align:center;
+}
+#item3{
+    width:385px;
+    grid-row:1;
+    grid-column:4;
+    border: 2px solid grey;
+    text-align:center;
+}
+#gridRow2{
+    grid-row:2;
+    grid-column-start:2;
+    grid-column-end:4;
+    width: 1155px;
+}
+#submit{
+    width: 60%;
+    height: 40px;
+    margin: 20px 20%;
+    border-radius: 8px;
+    font-size: 25px;
+}
+#gridRow2 p{
+    margin: 0px 20px 20px 20px;
+    font-size:20px;
+    line-height: 30px;
+    font-weight:bold;
+    
+}
+
+
+#img-container{
+    display:flex;
+    flex-direction: row;
+}
+#img-container img{
+    width: 90%;
+    margin: 20px;
+}
+
+label, input {
+    margin: 10px 0px;
+}
+
