@@ -1,6 +1,6 @@
 'use strict';
 
-var votesLeft = 1;
+var votesLeft = 25;
 var voteContainer = document.getElementById ('img-container');
 var item1El = document.getElementById ('item1');
 var item2El = document.getElementById ('item2');
@@ -60,8 +60,9 @@ function render () {
   
   dealWithRandomIndex();
   createSrcAltTitleValue(item3El);
-
 }
+
+var h3ElVotesLeft = document.createElement('h3');
 
 function collectingVotes(itemEl){
   if (itemEl.lastChild.checked === true){
@@ -72,6 +73,9 @@ function collectingVotes(itemEl){
       if (itemEl.lastChild.value === allItems[i].name){
         allItems[i].votes++;
         votesLeft--;
+        
+        h3ElVotesLeft.textContent = `Votes left: ${votesLeft}`;
+        resultsEl.appendChild(h3ElVotesLeft);
       }
     }
   }
@@ -88,8 +92,10 @@ function renderBestItem() {
     }
   }
   
-  alertUser.textContent = `The Best Item is:`;
+  resultsEl.removeChild(h3ElVotesLeft);
 
+  alertUser.textContent = `The Best Item is: ${bestItem.name}`;
+  
   var imgEl = document.createElement('img');
   imgEl.src = bestItem.filepath;
   imgEl.alt = imgEl.title = bestItem.name;
@@ -100,9 +106,24 @@ function renderBestItem() {
   var h3ElViews = document.createElement('h3');
   h3ElViews.textContent = `Views: ${bestItem.views}`;
 
+  var voteRatio = (bestItem.votes/bestItem.views)*100;
+  var h3ElVoteRatio = document.createElement('h3');
+  h3ElVoteRatio.textContent = `Vote Coefficient: ${voteRatio}%`;
+
   resultsEl.appendChild(imgEl);
   resultsEl.appendChild(h3ElVotes);
   resultsEl.appendChild(h3ElViews);
+  resultsEl.appendChild(h3ElVoteRatio);
+
+  var ulEl = document.createElement('ul');
+  for (i = 0; i < allItems.length; i++){
+    var liEl = document.createElement('li');
+    liEl.textContent = `${allItems[i].name}: ${allItems[i].votes} votes /  ${allItems[i].views} views`;
+    ulEl.appendChild(liEl);
+  }
+
+  resultsEl.appendChild(ulEl);
+
 }
 
 submitButton.addEventListener('click', handleClick);
@@ -121,13 +142,10 @@ function handleClick(){
 
   if(votesLeft === 0){
     submitButton.removeEventListener('click', handleClick);
-        renderBestItem();
-        voteContainer.style.opacity = 0.25;
-  }
-  
-
+    renderBestItem();
+    voteContainer.style.opacity = 0.25;
+  }  
   item1El.lastChild.checked = item2El.lastChild.checked = item3El.lastChild.checked = '';
-   
   render();
 }
 

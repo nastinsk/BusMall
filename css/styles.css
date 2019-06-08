@@ -1,3 +1,11 @@
+body{
+    display: flex;
+    flex-basis: row;
+    justify-content: center;
+}
+#page {
+    width: 1520px;
+}
 
 header{
     display:flex;
@@ -51,18 +59,16 @@ main {
 }
 #resultsParent{
     grid-row-start: 1;
-    grid-row-end: 3;
-
-    
+    grid-row-end: 3;    
 }
+
 #results {
     width: 88%;
     height: 88%;
     border: 2px solid grey;
-    margin:17px ;
-    
-
+    margin:0px 17px ;
 }
+
 #alertUser{
     font-size: 25px;
     padding: 16px;
@@ -75,7 +81,15 @@ main {
 }
 #results h3{
     font-size: 20px;
-    padding: 16px;
+    padding: 5px 16px;
+}
+
+#results ul{
+    text-align: right;
+    border-top: 2px dotted grey;
+    margin-top: 10px;
+    font-size: 20px;
+    padding: 20px 20px 20px 0px;
 }
 #item1{
     width:385px;
@@ -102,6 +116,7 @@ main {
     grid-row:2;
     grid-column-start:2;
     grid-column-end:4;
+    width: 1155px;
 }
 #submit{
     width: 60%;
@@ -115,6 +130,7 @@ main {
     font-size:20px;
     line-height: 30px;
     font-weight:bold;
+    
 }
 
 
