@@ -1,1 +1,1 @@
-https://nastinsk.github.io/BusMall/
+https://nastinsk.github.io/bus-mall/
