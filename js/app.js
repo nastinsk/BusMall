@@ -1,13 +1,13 @@
 'use strict';
 
-var votesLeft = 25;
-
-var voteBox = document.getElementById ('img-container');
-var submitButton = document.getElementById ('submit');
+var votesLeft = 10;
+var voteContainer = document.getElementById ('img-container');
 var item1El = document.getElementById ('item1');
 var item2El = document.getElementById ('item2');
 var item3El = document.getElementById ('item3');
-
+var submitButton = document.getElementById ('submit');
+var alertUser = document.getElementById('alertUser');
+var resultsEl = document.getElementById ('results');
 var allItems = [];
 
 function Item (name){
@@ -45,63 +45,82 @@ function dealWithRandomIndex () {
   allItems[randomIndex].views++;
 }
 
+function createSrcAltTitleValue (itemEl){
+  itemEl.firstChild.src = allItems[randomIndex].filepath;
+  itemEl.firstChild.alt = itemEl.firstChild.title = itemEl.lastChild.value = allItems[randomIndex].name;
+}
+
 function render () {
   
   dealWithRandomIndex();
-
-  var imgPart1 = item1El.firstChild;
-  var radioPart1 = item1El.lastChild;
-
-  imgPart1.src = allItems[randomIndex].filepath;
-  imgPart1.alt = imgPart1.title = radioPart1.value = allItems[randomIndex].name;
+  createSrcAltTitleValue(item1El);
   
-
   dealWithRandomIndex();
-  //In the future possible to change all imagpart2 and part 3(and radio) to imgPart1 and make a function
-  var imgPart2 = item2El.firstChild;
-  var radioPart2 = item2El.lastChild;
+  createSrcAltTitleValue(item2El);
   
-  imgPart2.src = allItems[randomIndex].filepath;
-  imgPart2.alt = imgPart2.title =  radioPart2.value = allItems[randomIndex].name;
-
   dealWithRandomIndex();
+  createSrcAltTitleValue(item3El);
 
-  var imgPart3 = item3El.firstChild;
-  var radioPart3 = item3El.lastChild;
-  
-  imgPart3.src = allItems[randomIndex].filepath;
-  imgPart3.alt = imgPart3.title = radioPart3.value = allItems[randomIndex].name;
 }
 
-// voteBox.addEventListener('click', handleClick);
+function collectingVotes(itemEl){
+  if (itemEl.lastChild.checked === true){
+    alertUser.textContent = '';
+    for(var i = 0; i < allItems.length; i++){
+      if (itemEl.lastChild.value === allItems[i].name){
+        allItems[i].votes++;
+        votesLeft--;
+      }
+    }
+  }
+}
 
-submitButton.addEventListener('click', handleClick);
+function renderBestItem() {
+  var bestItem;
+  var temp = 0;
 
-function handleClick(e){
-  e.preventDefault();
-
-  
-  var itemName = e.target.value;
-
-
-if((item1El.lastChild.checked !== true) & (item2El.lastChild.checked !== true)&(item3El.lastChild.checked !== true)){
-   alert('Please make a choice!');
+  for(var i = 0; i < allItems.length; i++){
+    if(allItems[i].votes > temp){
+      temp = allItems[i].votes;
+      bestItem = allItems[i];
+    }
   }
 
 
-  // if(votesLeft === 0){
-  // submitButton.removeEventListener('submit', handleSubmit);
-  // //   // render the results to the DOM
-  // //   renderBestItem();
-  // // }
+  var h2El = document.createElement('h2');
+  h2El.textContent = `The Best Item is:`;
+  var imgEl = document.createElement('img');
+  imgEl.src = bestItem.filepath;
+  imgEl.alt = imgEl.title = bestItem.name;
+  var h3El = document.createElement('h3');
+  h3El.textContent = `with ${bestItem.votes} votes`
+  resultsEl.appendChild(h2El);
+  resultsEl.appendChild(imgEl);
+  resultsEl.appendChild(h3El);
 
-  // for(var i = 0; i < allItems.length; i++){
-  //   if(itemName === allItems[i].name){
-  //     allitems[i].votes++;
-  //     votesLeft--;
-  //   }
-  // }
-  item1El.lastChild.checked = item2El.lastChild.checked = item3El.lastChild.checked = "";
+}
+
+submitButton.addEventListener('click', handleClick);
+
+function handleClick(){
+   
+  if((item1El.lastChild.checked !== true) & (item2El.lastChild.checked !== true)&(item3El.lastChild.checked !== true)){
+    alertUser.textContent = 'Please choose 1 item!';
+    return;
+  }
+
+  collectingVotes(item1El);
+  collectingVotes(item2El);
+  collectingVotes(item3El);
+
+  if(votesLeft === 0){
+    submitButton.removeEventListener('click', handleClick);
+        renderBestItem();
+        voteContainer.style.opacity = 0.25;
+  }
+  
+
+  item1El.lastChild.checked = item2El.lastChild.checked = item3El.lastChild.checked = '';
    
   render();
 }
