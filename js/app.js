@@ -1,6 +1,6 @@
 'use strict';
 
-var votesLeft = 10;
+var votesLeft = 1;
 var voteContainer = document.getElementById ('img-container');
 var item1El = document.getElementById ('item1');
 var item2El = document.getElementById ('item2');
@@ -65,7 +65,9 @@ function render () {
 
 function collectingVotes(itemEl){
   if (itemEl.lastChild.checked === true){
-    alertUser.textContent = '';
+    alertUser.style.color = 'black';
+    alertUser.textContent = 'Please select one item that you mostlikely buy.';
+    
     for(var i = 0; i < allItems.length; i++){
       if (itemEl.lastChild.value === allItems[i].name){
         allItems[i].votes++;
@@ -85,19 +87,22 @@ function renderBestItem() {
       bestItem = allItems[i];
     }
   }
+  
+  alertUser.textContent = `The Best Item is:`;
 
-
-  var h2El = document.createElement('h2');
-  h2El.textContent = `The Best Item is:`;
   var imgEl = document.createElement('img');
   imgEl.src = bestItem.filepath;
   imgEl.alt = imgEl.title = bestItem.name;
-  var h3El = document.createElement('h3');
-  h3El.textContent = `with ${bestItem.votes} votes`
-  resultsEl.appendChild(h2El);
-  resultsEl.appendChild(imgEl);
-  resultsEl.appendChild(h3El);
 
+  var h3ElVotes = document.createElement('h3');
+  h3ElVotes.textContent = `Votes: ${bestItem.votes}`;
+
+  var h3ElViews = document.createElement('h3');
+  h3ElViews.textContent = `Views: ${bestItem.views}`;
+
+  resultsEl.appendChild(imgEl);
+  resultsEl.appendChild(h3ElVotes);
+  resultsEl.appendChild(h3ElViews);
 }
 
 submitButton.addEventListener('click', handleClick);
@@ -105,6 +110,7 @@ submitButton.addEventListener('click', handleClick);
 function handleClick(){
    
   if((item1El.lastChild.checked !== true) & (item2El.lastChild.checked !== true)&(item3El.lastChild.checked !== true)){
+    alertUser.style.color = 'red';
     alertUser.textContent = 'Please choose 1 item!';
     return;
   }
