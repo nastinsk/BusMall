@@ -1,6 +1,6 @@
 'use strict';
 
-var votesLeft = 5;
+var votesLeft = 25;
 var voteContainer = document.getElementById ('img-container');
 var item1El = document.getElementById ('item1');
 var item2El = document.getElementById ('item2');
@@ -153,9 +153,14 @@ submitButton.addEventListener('click', handleClick);
 render();
 
 function renderChart() {
+  var h2El = document.getElementById('resultsChart');
+  h2El.textContent = 'Results Chart:';
+
   var votesArray = [];
+  var viewsArray = [];
   for (i = 0; i < allItems.length; i++){
     votesArray.push(allItems[i].votes);
+    viewsArray.push(allItems[i].views);
   }
 
   var ctx = document.getElementById('myChart').getContext('2d');
@@ -168,12 +173,22 @@ function renderChart() {
       datasets: [{
         label: '# of Votes',
         data: votesArray,
-        backgroundColor:'rgba(255, 99, 132, 0.2)',
+        backgroundColor:'rgba(255, 99, 132, 0.4)',
           
         borderColor:'rgba(255, 99, 132, 1)',
           
         borderWidth: 1
+      },
+      {
+        label: '# of Views',
+        data: viewsArray,
+        backgroundColor:'rgba(105, 99, 132, 0.6)',
+          
+        borderColor:'rgba(105, 99, 132, 1)',
+          
+        borderWidth: 1
       }]
+
     },
     options: {
       responsive: true,
@@ -189,5 +204,5 @@ function renderChart() {
     }
   });
   myChart.canvas.parentNode.style.height = '400px';
-  myChart.canvas.parentNode.style.width = '1200px';
+  myChart.canvas.parentNode.style.width = '1120px';
 }
