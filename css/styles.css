@@ -54,12 +54,12 @@ header ul li:last-child{
 main {
     display: grid;
     grid-template-columns: 320px 1fr 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
+    grid-template-rows: 1fr 310px 600px;
     margin: 0px 10px;
 }
 #resultsParent{
     grid-row-start: 1;
-    grid-row-end: 3;    
+    grid-row-end: 4;    
 }
 
 #results {
@@ -117,6 +117,7 @@ main {
     grid-column-start:2;
     grid-column-end:4;
     width: 1155px;
+    height: 350px;
 }
 #submit{
     width: 60%;
@@ -130,9 +131,20 @@ main {
     font-size:20px;
     line-height: 30px;
     font-weight:bold;
-    
 }
-
+#gridRow3 {
+    grid-row:3;
+    grid-column-start:2;
+    grid-column-end:4;
+    width: 1155px;
+}
+#gridRow3 h2{
+    font-size: 25px;
+    font-weight: bold;
+    color: grey;
+    margin: 10px auto;
+    text-align: center;
+}
 
 #img-container{
     display:flex;

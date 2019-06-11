@@ -10,6 +10,7 @@ var alertUser = document.getElementById('alertUser');
 var resultsEl = document.getElementById ('results');
 var allItems = [];
 
+//object constructor function for our img
 function Item (name){
   this.name = name;
   this.filepath = `img/${name}.jpg`;
@@ -18,7 +19,7 @@ function Item (name){
 
   allItems.push(this);
 }
-
+//img file names
 var itemsNames = ['bag', 'banana', 'bathroom', 'boots', 'breakfast', 'bubblegum', 'chair', 'cthulhu', 'dog-duck', 'dragon', 'pen', 'pet-sweep', 'scissors', 'shark', 'sweep', 'tauntaun', 'unicorn','usb','water-can','wine-glass'];
 
 for (var i = 0; i<itemsNames.length; i++){
@@ -126,8 +127,6 @@ function renderBestItem() {
 
 }
 
-submitButton.addEventListener('click', handleClick);
-
 function handleClick(){
    
   if((item1El.lastChild.checked !== true) & (item2El.lastChild.checked !== true)&(item3El.lastChild.checked !== true)){
@@ -144,9 +143,66 @@ function handleClick(){
     submitButton.removeEventListener('click', handleClick);
     renderBestItem();
     voteContainer.style.opacity = 0.25;
+    renderChart();
   }  
   item1El.lastChild.checked = item2El.lastChild.checked = item3El.lastChild.checked = '';
   render();
 }
+submitButton.addEventListener('click', handleClick);
 
 render();
+
+function renderChart() {
+  var h2El = document.getElementById('resultsChart');
+  h2El.textContent = 'Results Chart:';
+
+  var votesArray = [];
+  var viewsArray = [];
+  for (i = 0; i < allItems.length; i++){
+    votesArray.push(allItems[i].votes);
+    viewsArray.push(allItems[i].views);
+  }
+
+  var ctx = document.getElementById('myChart').getContext('2d');
+
+  var myChart = new Chart(ctx, {
+    type: 'bar',
+      
+    data: {
+      labels: itemsNames,
+      datasets: [{
+        label: '# of Votes',
+        data: votesArray,
+        backgroundColor:'rgba(255, 99, 132, 0.4)',
+          
+        borderColor:'rgba(255, 99, 132, 1)',
+          
+        borderWidth: 1
+      },
+      {
+        label: '# of Views',
+        data: viewsArray,
+        backgroundColor:'rgba(105, 99, 132, 0.6)',
+          
+        borderColor:'rgba(105, 99, 132, 1)',
+          
+        borderWidth: 1
+      }]
+
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: true
+          }
+        }]
+      }
+          
+    }
+  });
+  myChart.canvas.parentNode.style.height = '400px';
+  myChart.canvas.parentNode.style.width = '1120px';
+}
