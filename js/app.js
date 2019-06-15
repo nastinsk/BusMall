@@ -10,6 +10,8 @@ var alertUser = document.getElementById('alertUser');
 var resultsEl = document.getElementById ('results');
 var allItems = [];
 
+alertUser.textContent = `Please select one item that you most likely buy. You have ${votesLeft} votes.`;
+
 //object constructor function for our img
 function Item (name){
   this.name = name;
@@ -80,7 +82,11 @@ function collectingVotes(itemEl){
       if (itemEl.lastChild.value === allItems[i].name){
         allItems[i].votes++;
         votesLeft--;
-        
+        localStorage.removeItem('votesLeft'); //clear the old data from local storage
+        //adds a renewed votesleft in local storage
+        var stringVotesLeft = JSON.stringify(votesLeft);
+        localStorage.setItem('votesLeft', stringVotesLeft);
+       
         h3ElVotesLeft.textContent = `Votes left: ${votesLeft}`;
         resultsEl.appendChild(h3ElVotesLeft);
       }
@@ -124,7 +130,7 @@ function renderBestItem() {
   resultsEl.appendChild(h3ElVotes);
   resultsEl.appendChild(h3ElViews);
   resultsEl.appendChild(h3ElVoteRatio);
- //creates list where at the end all items from the allItems array will be displayed with their votes and views
+  //creates list where at the end all items from the allItems array will be displayed with their votes and views
   var ulEl = document.createElement('ul');
   for (i = 0; i < allItems.length; i++){
     var liEl = document.createElement('li');
@@ -145,7 +151,7 @@ function renderChart() {
     votesArray.push(allItems[i].votes);
     viewsArray.push(allItems[i].views);
   }
- //code from Chart.js
+  //code from Chart.js
   var ctx = document.getElementById('myChart').getContext('2d');
 
   var myChart = new Chart(ctx, {
@@ -190,12 +196,21 @@ function renderChart() {
   myChart.canvas.parentNode.style.width = '1120px';
 }
 
-//check if there is anything in the local storage
+//check if there is anything with the key "items" in the local storage
 var storageItems = localStorage.getItem('items');
+var storageVotesLeft = localStorage.getItem('votesLeft');
 if (storageItems !== null){
   var returnedItems = JSON.parse(storageItems);
   allItems = returnedItems; //replacing allItems values with the new info from local storage so we could use it
 }
+if ((storageVotesLeft !== null) && (storageVotesLeft !== 0)){
+  var returnedVotesLeft = JSON.parse(storageVotesLeft);
+  votesLeft = returnedVotesLeft; //replacing votesLeft values with the new info from local storage so we could use it
+  alertUser.textContent = `Welcome back! Please select one item that you mostlikely buy. You have ${votesLeft} votes.`;
+}
+function handleRedoTest (){
+  document.location.reload();
+} 
 
 function handleClick(){
   if((item1El.lastChild.checked !== true) & (item2El.lastChild.checked !== true)&(item3El.lastChild.checked !== true)){ //checks if user choose one item before click submit button
@@ -213,17 +228,23 @@ function handleClick(){
     renderBestItem();
     voteContainer.style.opacity = 0.25;
     renderChart();
-
-    //clears old info from the local storage so we want get double info
-    localStorage.clear();
-    //adds a renewed allItems array in local storage
-  var stringAllItems = JSON.stringify(allItems);
-  localStorage.setItem('items', stringAllItems);
+    //delete 'votesLeft' from the local storage so the number of votes won't become negative
+    localStorage.removeItem('votesLeft');
+    
+    //change the submitButton to "repeat Survey" and add eventlistener
+    submitButton.value = 'Repeat Survey';
+    submitButton.addEventListener('click', handleRedoTest);
   }  
+
   //clears check marks in radio buttons
   item1El.lastChild.checked = item2El.lastChild.checked = item3El.lastChild.checked = '';
   render();
-  
+
+  //clears old info from the local storage so we want get double info
+  localStorage.removeItem('items');
+  //adds a renewed allItems array in local storage
+  var stringAllItems = JSON.stringify(allItems);
+  localStorage.setItem('items', stringAllItems);
 }
 submitButton.addEventListener('click', handleClick);
 
