@@ -22,14 +22,17 @@ function Item (name){
 //img file names
 var itemsNames = ['bag', 'banana', 'bathroom', 'boots', 'breakfast', 'bubblegum', 'chair', 'cthulhu', 'dog-duck', 'dragon', 'pen', 'pet-sweep', 'scissors', 'shark', 'sweep', 'tauntaun', 'unicorn','usb','water-can','wine-glass'];
 
+//creatimg object instances with Item constructor
 for (var i = 0; i<itemsNames.length; i++){
   new Item (itemsNames[i]);
 }
 
+//helper function for random number
 function random(min, max){
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
+//function that chooses objects indexes so we could display imgs randomly
 var recentRandomNumbers = [];
 var randomIndex;
 function dealWithRandomIndex () {
@@ -46,11 +49,13 @@ function dealWithRandomIndex () {
   allItems[randomIndex].views++;
 }
 
+//function to create src alt title and vaalue for html elements
 function createSrcAltTitleValue (itemEl){
   itemEl.firstChild.src = allItems[randomIndex].filepath;
   itemEl.firstChild.alt = itemEl.firstChild.title = itemEl.lastChild.value = allItems[randomIndex].name;
 }
 
+//displays all information on the html page
 function render () {
   
   dealWithRandomIndex();
@@ -63,8 +68,9 @@ function render () {
   createSrcAltTitleValue(item3El);
 }
 
-var h3ElVotesLeft = document.createElement('h3');
+var h3ElVotesLeft = document.createElement('h3'); //creates h3 element in result section that will store votes that left
 
+//function that collect votes for each item that was displayed and alerts user about votes are left
 function collectingVotes(itemEl){
   if (itemEl.lastChild.checked === true){
     alertUser.style.color = 'black';
@@ -82,6 +88,7 @@ function collectingVotes(itemEl){
   }
 }
 
+//function to find out what is the item with the most votes, and display this item with votes/views and votes cofficient
 function renderBestItem() {
   var bestItem;
   var temp = 0;
@@ -107,7 +114,9 @@ function renderBestItem() {
   var h3ElViews = document.createElement('h3');
   h3ElViews.textContent = `Views: ${bestItem.views}`;
 
+
   var voteRatio = (bestItem.votes/bestItem.views)*100;
+  voteRatio = Number.parseFloat(voteRatio).toFixed(2); //this code from MDN, helps to reduce the lenght of the number
   var h3ElVoteRatio = document.createElement('h3');
   h3ElVoteRatio.textContent = `Vote Coefficient: ${voteRatio}%`;
 
@@ -115,7 +124,7 @@ function renderBestItem() {
   resultsEl.appendChild(h3ElVotes);
   resultsEl.appendChild(h3ElViews);
   resultsEl.appendChild(h3ElVoteRatio);
-
+ //creates list where at the end all items from the allItems array will be displayed with their votes and views
   var ulEl = document.createElement('ul');
   for (i = 0; i < allItems.length; i++){
     var liEl = document.createElement('li');
@@ -124,34 +133,8 @@ function renderBestItem() {
   }
 
   resultsEl.appendChild(ulEl);
-
 }
-
-function handleClick(){
-   
-  if((item1El.lastChild.checked !== true) & (item2El.lastChild.checked !== true)&(item3El.lastChild.checked !== true)){
-    alertUser.style.color = 'red';
-    alertUser.textContent = 'Please choose 1 item!';
-    return;
-  }
-
-  collectingVotes(item1El);
-  collectingVotes(item2El);
-  collectingVotes(item3El);
-
-  if(votesLeft === 0){
-    submitButton.removeEventListener('click', handleClick);
-    renderBestItem();
-    voteContainer.style.opacity = 0.25;
-    renderChart();
-  }  
-  item1El.lastChild.checked = item2El.lastChild.checked = item3El.lastChild.checked = '';
-  render();
-}
-submitButton.addEventListener('click', handleClick);
-
-render();
-
+//function to add chart after user made 25 votes
 function renderChart() {
   var h2El = document.getElementById('resultsChart');
   h2El.textContent = 'Results Chart:';
@@ -162,7 +145,7 @@ function renderChart() {
     votesArray.push(allItems[i].votes);
     viewsArray.push(allItems[i].views);
   }
-
+ //code from Chart.js
   var ctx = document.getElementById('myChart').getContext('2d');
 
   var myChart = new Chart(ctx, {
@@ -206,3 +189,43 @@ function renderChart() {
   myChart.canvas.parentNode.style.height = '400px';
   myChart.canvas.parentNode.style.width = '1120px';
 }
+
+//check if there is anything in the local storage
+var storageItems = localStorage.getItem('items');
+if (storageItems !== null){
+  var returnedItems = JSON.parse(storageItems);
+  allItems = returnedItems; //replacing allItems values with the new info from local storage so we could use it
+}
+
+function handleClick(){
+  if((item1El.lastChild.checked !== true) & (item2El.lastChild.checked !== true)&(item3El.lastChild.checked !== true)){ //checks if user choose one item before click submit button
+    alertUser.style.color = 'red';
+    alertUser.textContent = 'Please choose 1 item!';
+    return; 
+  }
+
+  collectingVotes(item1El);
+  collectingVotes(item2El);
+  collectingVotes(item3El);
+
+  if(votesLeft === 0){
+    submitButton.removeEventListener('click', handleClick);
+    renderBestItem();
+    voteContainer.style.opacity = 0.25;
+    renderChart();
+
+    //clears old info from the local storage so we want get double info
+    localStorage.clear();
+    //adds a renewed allItems array in local storage
+  var stringAllItems = JSON.stringify(allItems);
+  localStorage.setItem('items', stringAllItems);
+  }  
+  //clears check marks in radio buttons
+  item1El.lastChild.checked = item2El.lastChild.checked = item3El.lastChild.checked = '';
+  render();
+  
+}
+submitButton.addEventListener('click', handleClick);
+
+render();
+
