@@ -1,3 +1,6 @@
+*{
+    background-color: rgb(68, 67, 67);
+}
 body{
     display: flex;
     flex-basis: row;
@@ -25,6 +28,7 @@ header{
 #header-flex h1{
     font-size: 35px;
     margin: auto 15px;
+    color: rgb(211, 209, 209);
 }
 header ul{
     width: 500px;
@@ -43,9 +47,10 @@ header ul li{
     width: 128px;
     text-align: center;
     padding: 15px 0px;
+    background-color: rgb(211, 209, 209);
 }
 header ul li:hover{
-    background-color: rgb(211, 209, 209);
+    background-color: rgb(241, 20, 20);
 }
 header ul li:last-child{
     border-right: 2px solid black;
@@ -60,6 +65,7 @@ main {
 #resultsParent{
     grid-row-start: 1;
     grid-row-end: 4;    
+    
 }
 
 #results {
@@ -67,21 +73,24 @@ main {
     height: 88%;
     border: 2px solid grey;
     margin:0px 17px ;
+    background: rgb(211, 209, 209);
 }
 
 #alertUser{
     font-size: 25px;
     padding: 16px;
     font-weight: bold;
-
+    background: rgb(211, 209, 209);
 }
 #results img{
     width: 80%;
     padding: 10px 10%;
+    background: rgb(211, 209, 209);
 }
 #results h3{
     font-size: 20px;
     padding: 5px 16px;
+    background: rgb(211, 209, 209);
 }
 
 #results ul{
@@ -90,6 +99,10 @@ main {
     margin-top: 10px;
     font-size: 20px;
     padding: 20px 20px 20px 0px;
+    background: rgb(211, 209, 209);
+}
+#results li{
+    background: rgb(211, 209, 209);
 }
 #item1{
     width:385px;
@@ -97,6 +110,7 @@ main {
     grid-column:2;
     border: 2px solid grey;
     text-align:center;
+    background: rgb(211, 209, 209);
 }
 #item2{
     width:385px;
@@ -104,6 +118,7 @@ main {
     grid-column:3;
     border: 2px solid grey;
     text-align:center;
+    background: rgb(211, 209, 209);
 }
 #item3{
     width:385px;
@@ -111,6 +126,7 @@ main {
     grid-column:4;
     border: 2px solid grey;
     text-align:center;
+    background: rgb(211, 209, 209);
 }
 #gridRow2{
     grid-row:2;
@@ -125,6 +141,11 @@ main {
     margin: 20px 20%;
     border-radius: 8px;
     font-size: 25px;
+    background: grey;
+}
+
+#submit:hover{
+    background: rgb(241, 20, 20);
 }
 #gridRow2 p{
     margin: 0px 20px 20px 20px;
@@ -137,14 +158,21 @@ main {
     grid-column-start:2;
     grid-column-end:4;
     width: 1155px;
+    
 }
+
 #gridRow3 h2{
     font-size: 25px;
     font-weight: bold;
-    color: grey;
+    color:rgb(211, 209, 209);
     margin: 10px auto;
     text-align: center;
+    
 }
+#gridRow3 #myChart{
+    background:rgb(68, 67, 67);
+}
+
 
 #img-container{
     display:flex;
@@ -157,5 +185,6 @@ main {
 
 label, input {
     margin: 10px 0px;
+    background: rgb(211, 209, 209);
 }
 

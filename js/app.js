@@ -1,6 +1,6 @@
 'use strict';
 
-var votesLeft = 25;
+var votesLeft = 5;
 var voteContainer = document.getElementById ('img-container');
 var item1El = document.getElementById ('item1');
 var item2El = document.getElementById ('item2');
@@ -171,7 +171,7 @@ function renderChart() {
       {
         label: '# of Views',
         data: viewsArray,
-        backgroundColor:'rgba(105, 99, 132, 0.6)',
+        backgroundColor:'rgba(211, 209, 209, 0.6)',
           
         borderColor:'rgba(105, 99, 132, 1)',
           
@@ -194,6 +194,7 @@ function renderChart() {
   });
   myChart.canvas.parentNode.style.height = '400px';
   myChart.canvas.parentNode.style.width = '1120px';
+  myChart.canvas.style.backgroundColor = 'white';
 }
 
 //check if there is anything with the key "items" in the local storage
